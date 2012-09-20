@@ -9,8 +9,14 @@ I have only tested it in Clozure Common Lisp on a Macintosh.
 (xkcd:pull-all)
   Pull all the files down from xkcd.org, and store them in the www/images directory
 
+(xkcd:reduce-files)
+  Reduce the size of the files in www/images to 256x256 and write in www/small-images
+
 (xkcd:write-html-table)
   Write www/index.html, a big table displaying all the files downloaded by pull-all.
+
+(xkcd:pull-reduce-and-index)
+  Call pull-all, reduce-files, and write-html-table.
 
 There are 212 image files, each 2048x2048 pixels.
 
