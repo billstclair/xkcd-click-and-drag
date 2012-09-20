@@ -90,7 +90,7 @@
     (dolist (p paths)
       (let ((image (ignore-errors
                      ;; read-png-file fails sometimes
-                     (opticl:resize-image (opticl:read-png-file p) 512 512)))
+                     (opticl:resize-image (opticl:read-png-file p) 256 256)))
             (op (make-pathname
                  :directory '(:relative "www" "small-images")
                  :defaults p)))
