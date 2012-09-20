@@ -2,6 +2,10 @@ On Wednesday, September 19, 2012, XKCD's cartoon was entitled "Click and Drag": 
 
 I wrote some lisp code to pull down all the image files and create a huge HTML table to display them. The table shows the images reduced from 2048x2048 to 256x256. Click on part of the image to show that square in full resolution (in a new window/tab).
 
+The result is viewable at http://billstclair.com/click-and-drag/
+
+Boing Boing (http://boingboing.net/2012/09/19/xkcds-14-foot-wide-click-and.html) has provided a link to a site that provides a fully-zoomable dynamic map of the whole space, including some images I missed, since I only walked the space directly connected to the starting point: http://xkcd-map.rent-a-geek.de/
+
 The lisp code is in "source/xkcd.lisp". Load it by cd'ing to the project directory, and executing "./start [slime-port]", or by starting a lisp and executing (load "start").
 
 I have only tested it in Clozure Common Lisp on a Macintosh.
