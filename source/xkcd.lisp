@@ -36,18 +36,27 @@
                  :name (if (stringp pos) pos (image-file-name pos nil))
                  :type "png"))
 
+(defun write-bytes-to-file (bytes file)
+  (with-open-file (s file
+                     :direction :output
+                     :if-exists :supersede
+                     :if-does-not-exist :create
+                     :element-type '(unsigned-byte 8))
+    (write-sequence bytes s)))
+
+(defun read-bytes-from-file (file)
+  (with-open-file (s file :element-type '(unsigned-byte 8))
+    (let ((res (make-array (file-length s) :element-type '(unsigned-byte 8))))
+      (read-sequence res s)
+      res)))
+
 (defun get-image (pos)
   (let ((file (image-path pos)))
     (if (probe-file file)
         t
         (multiple-value-bind (image status) (drakma:http-request (image-url pos))
           (cond ((eq status 200)
-                 (with-open-file (s (image-path pos)
-                                    :direction :output
-                                    :if-exists :supersede
-                                    :if-does-not-exist :create
-                                    :element-type '(unsigned-byte 8))
-                   (write-sequence image s))
+                 (write-bytes-to-file image (image-path pos))
                  (length image))
                 (t nil))))))
 
@@ -75,6 +84,19 @@
          (push-todo (cons (1+ y) x))
          (push-todo (cons y (1- x)))
          (push-todo (cons y (1+ x))))))
+
+(defun reduce-files ()
+  (let ((paths (directory "www/images/*.png")))
+    (dolist (p paths)
+      (let ((image (ignore-errors
+                     ;; read-png-file fails sometimes
+                     (opticl:resize-image (opticl:read-png-file p) 512 512)))
+            (op (make-pathname
+                 :directory '(:relative "www" "small-images")
+                 :defaults p)))
+        (if image
+            (opticl:write-png-file op image)
+            (write-bytes-to-file (read-bytes-from-file p) op))))))
 
 (defun index-files ()
   (let ((paths (directory "www/images/*.png"))
@@ -106,7 +128,7 @@
                        :if-exists :supersede
                        :if-does-not-exist :create)
       (format s "<html>~%<head>~%<title>XKCD Click and Drag</title>~%</head>~%")
-      (format s "<body>~%<p><a href='http://xkcd.com/1110/'>xkcd.com/1110</a></p>~%")
+      (format s "<body>~%<p><a href='http://xkcd.com/1110/'>xkcd.com/1110</a> (scroll down for image)</p>~%")
       (write-html-table s a minx miny size)
       (format s "</body>~%</html>~%"))))
 
@@ -119,13 +141,18 @@
          (dotimes (x w)
            (let* ((pos (cons (+ y miny) (+ x minx)))
                   (bit (aref a y x))
+                  (png (image-file-name pos))
                   (file (and (eql bit 1) ;change (eql bit 1) to t to use white.png
                         (format nil
-                                "<img src='~a' alt='~s' width='~d' height='~d'/>"
-                                (if (eql bit 1)
-                                    (format nil "images/~a" (image-file-name pos))
-                                    "white.png")
+                                "<a target='_blank' href='~a'><img src='~a' alt='~s' width='~d' height='~d'/></a>"
+                                (format nil "images/~a" png)
+                                (format nil "small-images/~a" png)
                                 pos size size))))
              (format s "    <td>~a</td>~%" (or file "&nbsp;"))))
          (format s "  </tr>~%")))
   (format s "</table>~%"))
+
+(defun pull-reduce-and-index ()
+  (pull-all t)
+  (reduce-files)
+  (index-files))

@@ -1,6 +1,6 @@
 On Wednesday, September 19, 2012, XKCD's cartoon was entitled "Click and Drag": http://xkcd.com/1110/
 
-I wrote some lisp code to pull down all the image files and create a huge HTML table to display them. It causes my Firefox to use 3.4 gigs of RAM, so if you've got less than 6 gigs, you'll probably thrash displaying the HTML file.
+I wrote some lisp code to pull down all the image files and create a huge HTML table to display them. The table shows the images reduced from 2048x2048 to 256x256. Click on part of the image to show that square in full resolution (in a new window/tab).
 
 The lisp code is in "source/xkcd.lisp". Load it by cd'ing to the project directory, and executing "./start [slime-port]", or by starting a lisp and executing (load "start").
 
@@ -19,4 +19,3 @@ The table is 27 images high and 81 images wide, from 19s33w to 8n48e in the coor
 map.txt shows a simple map of which table locations are filled.
 
 Licensed under THE BILL ST. CLAIR LICENSE. See license.txt.
-

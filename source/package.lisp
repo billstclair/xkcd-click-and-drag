@@ -4,5 +4,7 @@
   (:use common-lisp)
   (:import-from :cl-user #:reload)
   (:export #:pull-all
-           #:write-html-table)
+           #:reduce-files
+           #:write-html-table
+           #:pull-reduce-and-index)
   )

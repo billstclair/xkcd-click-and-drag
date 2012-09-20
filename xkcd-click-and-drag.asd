@@ -6,7 +6,7 @@
   :author "Bill St. Clair <billstclair@gmail.com>"
   :version "0.1.0"
   :license "Public Domain"
-  :depends-on (drakma)
+  :depends-on (drakma opticl)
   :components ((:module source
                 :serial t
                 :components
