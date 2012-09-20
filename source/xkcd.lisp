@@ -142,12 +142,12 @@
            (let* ((pos (cons (+ y miny) (+ x minx)))
                   (bit (aref a y x))
                   (png (image-file-name pos))
-                  (file (and (eql bit 1) ;change (eql bit 1) to t to use white.png
-                        (format nil
-                                "<a target='_blank' href='~a'><img src='~a' alt='~s' width='~d' height='~d'/></a>"
-                                (format nil "images/~a" png)
-                                (format nil "small-images/~a" png)
-                                pos size size))))
+                  (file (and (eql bit 1)
+                             (format nil
+                                     "<a target='_blank' href='~a'><img src='~a' alt='~s' width='~d' height='~d'/></a>"
+                                     (format nil "images/~a" png)
+                                     (format nil "small-images/~a" png)
+                                     pos size size))))
              (format s "    <td>~a</td>~%" (or file "&nbsp;"))))
          (format s "  </tr>~%")))
   (format s "</table>~%"))
