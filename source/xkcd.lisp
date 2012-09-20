@@ -128,7 +128,7 @@
                        :if-exists :supersede
                        :if-does-not-exist :create)
       (format s "<html>~%<head>~%<title>XKCD Click and Drag</title>~%</head>~%")
-      (format s "<body>~%<p><a href='http://xkcd.com/1110/'>xkcd.com/1110</a> (scroll down for image)<br/><a href='https://github.com/billstclair/xkcd-click-and-drag'>github.com/billstclair/xkcd-click-and-drag</a></p>~%")
+      (format s "<body>~%<p>Comic: <a href='http://xkcd.com/1110/'>xkcd.com/1110</a><br/>Code: <a href='https://github.com/billstclair/xkcd-click-and-drag'>github.com/billstclair/xkcd-click-and-drag</a><br/>(scroll down for image)</p>~%")
       (write-html-table s a minx miny size)
       (format s "</body>~%</html>~%"))))
 
