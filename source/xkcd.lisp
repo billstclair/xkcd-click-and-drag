@@ -119,12 +119,13 @@
          (dotimes (x w)
            (let* ((pos (cons (+ y miny) (+ x minx)))
                   (bit (aref a y x))
-                  (file (format nil
+                  (file (and (eql bit 1) ;change (eql bit 1) to t to use white.png
+                        (format nil
                                 "<img src='~a' alt='~s' width='~d' height='~d'/>"
                                 (if (eql bit 1)
                                     (format nil "images/~a" (image-file-name pos))
                                     "white.png")
-                                pos size size)))
+                                pos size size))))
              (format s "    <td>~a</td>~%" (or file "&nbsp;"))))
          (format s "  </tr>~%")))
   (format s "</table>~%"))
